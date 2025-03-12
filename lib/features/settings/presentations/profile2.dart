@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:todo/add_task.dart';
-import 'package:todo/config/app_asset.dart';
-import 'package:todo/profile2.dart';
+import 'package:todo/features/opening_page/presentations/registerr.dart';
+import 'package:todo/features/settings/presentations/settings.dart';
+import 'package:todo/features/settings/presentations/widgets/default_container.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class Profile2 extends StatelessWidget {
+  const Profile2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,31 +52,41 @@ class Home extends StatelessWidget {
                 ],
               ),
               Spacer(),
-              IconButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return Add_task();
-                    }));
-                  },
-                  icon: Icon(Icons.add_outlined))
             ],
           ),
           SizedBox(
-            height: 60,
+            height: 30,
           ),
-          Text(
-            "There are no tasks yet,\n      Press the button\n      To add New Task ",
-            style: TextStyle(
-                fontSize: 16,
-                fontFamily: "Lexend Deca",
-                fontWeight: FontWeight.w300,
-                color: Color(0xff24252C)),
-          ),
+          InkWell(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return Register();
+                }));
+              },
+              child: DefaultContainer(
+                  icon: Icon(Icons.person), title: "Update Profile")),
           SizedBox(
-            height: 55,
+            height: 20,
           ),
-          Image.asset(AppAsset.person_imae)
+          InkWell(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return Register();
+                }));
+              },
+              child: DefaultContainer(
+                  icon: Icon(Icons.lock), title: "Change Password")),
+          SizedBox(
+            height: 20,
+          ),
+          InkWell(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return Settings();
+                }));
+              },
+              child: DefaultContainer(
+                  icon: Icon(Icons.settings), title: "Settings")),
         ],
       ),
     );

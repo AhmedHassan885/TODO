@@ -13,9 +13,11 @@ abstract class AppAsset {
   static const String arrow_right = "${base_url}arrow_right.svg";
   static const String arrow_bottom = "${base_url}arrow_bottom.svg";
     static const String plus_2 = "${base_url}Plus - Iconly Pro.svg";
+        static const String plus_3 = "${base_url}Plus - Iconly Pro (2).svg";
+
 
   
-
+  static const String true_sign = "assets/images/true_sign.svg";
   static const String flag_image = "assets/images/flag.png";
   static const String palstine_image =
       "assets/images/GettyImages-1315607788 2.png";
