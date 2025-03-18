@@ -1,29 +1,35 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo/features/settings/data/models/settings_model.dart';
 import 'package:todo/features/settings/data/repo/settings_repo.dart';
-import 'settings_state.dart';
+import 'package:todo/features/settings/manager/cubit/settings_state.dart';
 
-class SettingsCubit extends Cubit<SettingsState> {
-  final SettingsRepo repo;
+class UpdateProfileCubit extends Cubit<UpdateProfileState> {
+  UpdateProfileCubit._internal() : super(UpdateProfileInitial());
+  static final UpdateProfileCubit _instance = UpdateProfileCubit._internal();
+  factory UpdateProfileCubit() => _instance;
 
-  SettingsCubit(this.repo) : super(SettingsInitial());
+  UpdateProfileRepo updateProfileRepo = UpdateProfileRepo();
+  TextEditingController usernameController = TextEditingController();
+  GlobalKey<FormState> form = GlobalKey();
 
-  void loadSettings() {
-    final settings = repo.getSettings();
-    emit(SettingsChanged(settings));
+  static UpdateProfileCubit get(context) => BlocProvider.of(context);
+
+  Future<void> updateProfile() async {
+    if (validate()) {
+      emit(UpdateProfileLoading());
+
+      var response = await updateProfileRepo.updateProfile(
+          username: usernameController.text);
+
+      response.fold((error) {
+        emit(UpdateProfileError(error));
+      }, (massage) {
+        emit(UpdateProfileSuccess(massage));
+      });
+    }
   }
 
-  void updateSettings({bool? notifications, bool? cloud}) {
-    if (state is SettingsChanged) {
-      final currentSettings = (state as SettingsChanged).settings;
-
-      final newSettings = SettingsModel(
-        notifications: notifications ?? currentSettings.notifications,
-        cloud: cloud ?? currentSettings.cloud,
-      );
-
-      repo.updateSettings(notifications: notifications, cloud: cloud);
-      emit(SettingsChanged(newSettings)); 
-    }
+  bool validate() {
+    return form.currentState?.validate() ?? false;
   }
 }

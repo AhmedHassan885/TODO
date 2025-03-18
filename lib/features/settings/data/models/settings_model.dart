@@ -1,9 +1,13 @@
- class SettingsModel {
-  bool notifications;
-  bool cloud;
+class UpdateProfileModel {
+  final bool status;
+  final String message;
 
-  SettingsModel({
-    required this.notifications,
-    required this.cloud,
-  });
+  UpdateProfileModel({required this.status, required this.message});
+
+  factory UpdateProfileModel.fromJson(Map<String, dynamic> json) {
+    return UpdateProfileModel(
+      status: json['status'] ?? false,
+      message: json['message'] ?? "Unknown error",
+    );
+  }
 }

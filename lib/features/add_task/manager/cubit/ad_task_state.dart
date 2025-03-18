@@ -1,11 +1,21 @@
-abstract class AddTaskState {}
+import 'package:todo/features/home/data/models/task_model.dart';
 
-class TaskInitState extends AddTaskState {}
+abstract class TaskState {}
 
-class TaskLoadingState extends AddTaskState {}
-class TaskSuccessState extends AddTaskState {}
-class TaskErrorState extends AddTaskState {
+class TaskInitial extends TaskState {}
 
-   final String error;
-  TaskErrorState(this.error);
+class TaskLoading extends TaskState {}
+
+class TaskLoaded extends TaskState {
+  late final List<TaskModel> tasks;
+}
+
+class TaskSuccess extends TaskState {
+  final String task;
+  TaskSuccess(this.task);
+}
+
+class TaskError extends TaskState {
+  final String message;
+  TaskError(this.message);
 }

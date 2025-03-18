@@ -1,26 +1,38 @@
-// ignore_for_file: void_checks
+// ignore_for_file: avoid_print
 
 import 'package:dartz/dartz.dart';
-import 'package:todo/features/add_task/data/models/add_task_model.dart';
-class TaskRepo {
-  TaskRepo._inter();
-  static final TaskRepo _inst = TaskRepo._inter();
-  static getInst() {
-    return _inst;
-  }
+import 'package:todo/core/network/api_helper.dart';
+import 'package:todo/core/network/api_response.dart';
+import 'package:todo/core/network/end_points.dart';
 
-  TaskModel? model;
+class AddTaskRepo {
+  AddTaskRepo._private();
+  static final AddTaskRepo _instance = AddTaskRepo._private();
+  factory AddTaskRepo() => _instance;
 
-  Future<Either<String, void>> saveTask(TaskModel model) async {
+  APIHelper apiHelper = APIHelper();
+
+  Future<Either<String, String>> addTask(
+      {required String title, required String description}) async {
     try {
-      await Future.delayed(Duration(seconds: 1));
-      if (model.task_Name.isEmpty) {
-        throw Exception("You should enter a task name");
+      ApiResponse apiResponse = await apiHelper.postRequest(
+        endPoint: EndPoints.newTask,
+        data: {
+          "title": title,
+          "description": description,
+        },
+        isAuthorized: true,
+      );
+      print("API Response: ${apiResponse.data}");
+
+      if (apiResponse.status) {
+        return Right(apiResponse.message);
+      } else {
+        return Left(apiResponse.message);
       }
-      this.model = model;
-      return right(0);
     } catch (e) {
-      return left(e.toString());
+      print("Exception in addTask: $e");
+      return Left(ApiResponse.fromError(e).message);
     }
   }
 }

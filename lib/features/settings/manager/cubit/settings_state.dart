@@ -1,10 +1,17 @@
-import 'package:todo/features/settings/data/models/settings_model.dart';
+abstract class UpdateProfileState {}
 
-abstract class SettingsState {}
+class UpdateProfileInitial extends UpdateProfileState {}
 
-class SettingsInitial extends SettingsState {}
+class UpdateProfileLoading extends UpdateProfileState {}
 
-class SettingsChanged extends SettingsState {
-  final SettingsModel settings;
-  SettingsChanged(this.settings);
+class UpdateProfileSuccess extends UpdateProfileState {
+  final String message;
+
+  UpdateProfileSuccess(this.message);
+}
+
+class UpdateProfileError extends UpdateProfileState {
+  final String errorMessage;
+
+  UpdateProfileError(this.errorMessage);
 }

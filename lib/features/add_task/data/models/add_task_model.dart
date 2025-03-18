@@ -1,9 +1,20 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_this
 
-class TaskModel {
-  String task_Name;
-  String task_Desc;
-  String task_Group;
+class AddTaskResponseModel {
+  String? message;
+  bool? status;
 
-  TaskModel(this.task_Name, this.task_Desc, this.task_Group);
+  AddTaskResponseModel({this.message, this.status});
+
+  AddTaskResponseModel.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = this.message;
+    data['status'] = this.status;
+    return data;
+  }
 }

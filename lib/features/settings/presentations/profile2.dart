@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:todo/features/opening_page/presentations/registerr.dart';
-import 'package:todo/features/settings/presentations/settings.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/core/helper/my_navigator.dart';
+import 'package:todo/core/localization/app_string.dart';
+import 'package:todo/core/widgets/inputs/Default.dart';
+import 'package:todo/features/Auth/manager/cubit/profile_cubit.dart';
+import 'package:todo/features/Auth/manager/cubit/profile_state.dart';
+import 'package:todo/features/edit/presentation/change_password.dart';
+import 'package:todo/features/settings/presentations/update_profile.dart';
 import 'package:todo/features/settings/presentations/widgets/default_container.dart';
 
 class Profile2 extends StatelessWidget {
@@ -8,87 +14,66 @@ class Profile2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          Row(
+    return BlocProvider(
+      create: (context) => ProfileCubit(),
+      child: Builder(builder: (context) {
+        ProfileCubit.get(context).getUser();
+        return Scaffold(
+          body: Column(
             children: [
-              IconButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return Profile2();
-                    }));
-                  },
-                  icon: Icon(Icons.person)),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    "Hello!",
-                    style: TextStyle(
-                        color: Color(0xff24252C),
-                        fontFamily: "Lexend Deca",
-                        fontSize: 12,
-                        fontWeight: FontWeight.w300),
-                  ),
-                  Text(
-                    "Ahmed Hassan",
-                    style: TextStyle(
-                        color: Color(0xff24252C),
-                        fontFamily: "Lexend Deca",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w300),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                ],
+              SizedBox(
+                height: 10,
               ),
-              Spacer(),
+              BlocBuilder<ProfileCubit, AuthState>(
+                builder: (context, state) {
+                  if (state is GetUserSuccess) {
+                    return DefaultRow(
+                      name: state.username,
+                      iconButton: Text(""),
+                    );
+                  }
+                  return SafeArea(
+                    child: Text(
+                      "Mt",
+                    ),
+                  );
+                },
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              InkWell(
+                  onTap: () {
+                    navigateTo(context, screen: Update());
+                  },
+                  child: DefaultContainer(
+                      icon: Icon(Icons.person),
+                      title: AppString.updatePro_text)),
+              SizedBox(
+                height: 20,
+              ),
+              InkWell(
+                  onTap: () {
+                    navigateTo(context,
+                        screen:  ChangePassword());
+                  },
+                  child: DefaultContainer(
+                      icon: Icon(Icons.lock),
+                      title: AppString.changePass_text)),
+              SizedBox(
+                height: 20,
+              ),
+              InkWell(
+                  onTap: () {
+                    
+                  },
+                  child: DefaultContainer(
+                      icon: Icon(Icons.settings),
+                      title: AppString.settings_text)),
             ],
           ),
-          SizedBox(
-            height: 30,
-          ),
-          InkWell(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return Register();
-                }));
-              },
-              child: DefaultContainer(
-                  icon: Icon(Icons.person), title: "Update Profile")),
-          SizedBox(
-            height: 20,
-          ),
-          InkWell(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return Register();
-                }));
-              },
-              child: DefaultContainer(
-                  icon: Icon(Icons.lock), title: "Change Password")),
-          SizedBox(
-            height: 20,
-          ),
-          InkWell(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return Settings();
-                }));
-              },
-              child: DefaultContainer(
-                  icon: Icon(Icons.settings), title: "Settings")),
-        ],
-      ),
+        );
+      }),
     );
   }
 }

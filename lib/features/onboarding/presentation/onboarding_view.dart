@@ -2,10 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:todo/core/constants/app_constant.dart';
 import 'package:todo/core/helper/my_navigator.dart';
 import 'package:todo/core/resource_manager/app_asset.dart';
 import 'package:todo/core/resource_manager/app_colors.dart';
-import 'package:todo/features/opening_page/presentations/lets_start.dart'; 
+import 'package:todo/features/onboarding/presentation/lets_start.dart';
+
 class Onboarding extends StatefulWidget {
   const Onboarding({super.key});
 
@@ -32,7 +34,7 @@ class _OnboardingState extends State<Onboarding> {
           Center(child: SvgPicture.asset(AppAsset.true_sign)),
           SizedBox(height: 30),
           Text(
-            "TODO",
+            AppConstant.app_name,
             style: TextStyle(
                 fontWeight: FontWeight.w900,
                 fontSize: 36,

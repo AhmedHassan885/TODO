@@ -1,35 +1,30 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: avoid_print
 
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo/features/add_task/data/models/add_task_model.dart';
 import 'package:todo/features/add_task/data/repo/add_task_repo.dart';
 import 'package:todo/features/add_task/manager/cubit/ad_task_state.dart';
 
-class TaskCubit extends Cubit<AddTaskState> {
-  final TextEditingController task_nameController = TextEditingController();
-  final TextEditingController task_DescController = TextEditingController();
-  String selectedTaskGroup = "Home";
+class TaskCubit extends Cubit<TaskState> {
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  TaskCubit() : super(TaskInitial());
 
-  TaskRepo repo = TaskRepo.getInst();
-  TaskCubit() : super(TaskInitState());
+  static TaskCubit get(context) => BlocProvider.of(context);
+  final AddTaskRepo taskRepo = AddTaskRepo();
 
-  static TaskCubit get(context) => BlocProvider.of<TaskCubit>(context);
+  void addTask() async {
+    emit(TaskLoading());
 
-  void updateSelectedTaskGroup(String group) {
-    selectedTaskGroup = group;
-    emit(TaskInitState());
-  }
+    final response = await taskRepo.addTask(
+        title: titleController.text, description: descriptionController.text);
 
-  void saveTask() async {
-    emit(TaskLoadingState());
-    Either<String, void> response = await repo.saveTask(
-        TaskModel(task_nameController.text, task_DescController.text, selectedTaskGroup));
-    response.fold((String error) {
-      emit(TaskErrorState(error));
-    }, (r) {
-      emit(TaskSuccessState());
-    });
+    response.fold(
+      (error) {
+        print("Task Add Failed: $error");
+        emit(TaskError(error));
+      },
+      (task) => emit(TaskSuccess(task)),
+    );
   }
 }
