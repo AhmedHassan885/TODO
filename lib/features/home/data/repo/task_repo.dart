@@ -15,7 +15,6 @@ class GetTasksRepo {
       );
 
       if (response.status) {
-        // success
         GetTasksResponseModel getTasksResponseModel =
             GetTasksResponseModel.fromJson(response.data);
 

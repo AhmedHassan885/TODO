@@ -4,7 +4,7 @@ import 'package:todo/core/helper/my_navigator.dart';
 import 'package:todo/core/localization/app_string.dart';
 import 'package:todo/core/resource_manager/app_asset.dart';
 import 'package:todo/core/widgets/inputs/Default.dart';
-import 'package:todo/features/home/presentations/home_task.dart';
+import 'package:todo/features/Auth/presentations/login_view.dart';
 import 'package:todo/features/settings/manager/cubit/settings_cubit.dart';
 import 'package:todo/features/settings/manager/cubit/settings_state.dart';
 
@@ -43,7 +43,7 @@ class Update extends StatelessWidget {
                             content: Text(state.message),
                             backgroundColor: Colors.green),
                       );
-                      navigateTo(context, screen: HomeTask());
+                      navigateTo(context, screen: Login());
                     } else if (state is UpdateProfileError) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

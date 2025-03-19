@@ -46,6 +46,7 @@ class Login extends StatelessWidget {
               BlocListener<ProfileCubit, AuthState>(
                 listener: (context, state) {
                   if (state is LoginSuccessState) {
+                    
                     navigateTo(context, screen: Home());
                   } else if (state is LoginErrorState) {
                     ScaffoldMessenger.of(context)

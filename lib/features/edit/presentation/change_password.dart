@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/core/helper/my_navigator.dart';
 import 'package:todo/core/localization/app_string.dart';
 import 'package:todo/core/resource_manager/app_asset.dart';
 import 'package:todo/core/widgets/inputs/Default.dart';
-import 'package:todo/features/Auth/manager/cubit/profile_cubit.dart';
+import 'package:todo/features/Auth/presentations/login_view.dart';
 import 'package:todo/features/edit/manager/cubit/edit_cubit.dart';
 import 'package:todo/features/edit/manager/cubit/edit_state.dart';
 
@@ -54,6 +55,7 @@ class ChangePassword extends StatelessWidget {
                           content: Text(state.message),
                           backgroundColor: Colors.green),
                     );
+                    navigateTo(context, screen: Login());
                   } else if (state is ChangePasswordError) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

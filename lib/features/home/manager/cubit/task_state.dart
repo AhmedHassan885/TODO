@@ -1,4 +1,3 @@
-
 import 'package:todo/features/home/data/models/task_model.dart';
 
 abstract class GetTasksState {}

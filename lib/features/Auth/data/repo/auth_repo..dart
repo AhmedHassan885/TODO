@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field, void_checks, curly_braces_in_flow_control_structures, file_names, non_constant_identifier_names, avoid_print
 
 import 'package:dartz/dartz.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo/core/local/local_data.dart';
 import 'package:todo/core/network/api_helper.dart';
 import 'package:todo/core/network/api_response.dart';
@@ -46,6 +47,10 @@ class AuthRepo {
         if (loginResponseModel.user == null) {
           return Left(apiResponse.message);
         }
+        
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('access_token', loginResponseModel.accessToken.toString());
+
         LocalData.accessToken = loginResponseModel.accessToken;
         LocalData.refreshToken = loginResponseModel.refreshToken;
         return Right(loginResponseModel.user!);

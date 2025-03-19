@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/core/helper/my_navigator.dart';
@@ -8,6 +10,7 @@ import 'package:todo/features/Auth/manager/cubit/profile_state.dart';
 import 'package:todo/features/add_task/manager/cubit/ad_task_state.dart';
 import 'package:todo/features/add_task/manager/cubit/add_task_cubit.dart';
 import 'package:todo/features/add_task/presentations/add_task2.dart';
+import 'package:todo/features/home/manager/cubit/task_cubit.dart';
 import 'package:todo/features/home/presentations/widgets/task_cont.dart';
 
 
@@ -19,7 +22,7 @@ class Home extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => ProfileCubit()..getUser()),
-        BlocProvider(create: (context) => TaskCubit()),
+        BlocProvider(create: (context) => GetTasksCubit()),
       ],
       child: Builder(builder: (context) {
         return Scaffold(

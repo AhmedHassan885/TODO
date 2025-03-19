@@ -1,10 +1,14 @@
 // ignore_for_file: must_be_immutable, avoid_print, prefer_const_constructors_in_immutables
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:todo/core/helper/my_navigator.dart';
 import 'package:todo/core/localization/app_string.dart';
 import 'package:todo/core/resource_manager/app_asset.dart';
+import 'package:todo/core/widgets/image_manager/image_manager_view.dart';
 import 'package:todo/core/widgets/inputs/Default.dart';
 import 'package:todo/features/Auth/manager/cubit/profile_cubit.dart';
 import 'package:todo/features/Auth/manager/cubit/profile_state.dart';
@@ -20,12 +24,41 @@ class Register extends StatelessWidget {
         body: Builder(builder: (context) {
           return Column(
             children: [
-              Image.asset(
-                AppAsset.palstine_image,
-                fit: BoxFit.cover,
-                width: 450,
-                height: 300,
-              ),
+             ImageManagerView(
+                      onSelected: (XFile image) {},
+                      selectedImageBuilder: (XFile image) {
+                        return Container(
+                          width: double.infinity,
+                          height: 298,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(20),
+                              bottomLeft: Radius.circular(20),
+                            ),
+                            image: DecorationImage(
+                              image: FileImage(File(image.path)),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      },
+                      unSelectedImageBuilder: () {
+                        return Container(
+                          width: double.infinity,
+                          height: 298,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(20),
+                              bottomLeft: Radius.circular(20),
+                            ),
+                            image: DecorationImage(
+                              image: AssetImage(AppAsset.palstine_image),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
               SizedBox(
                 height: 35,
               ),

@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo/core/local/local_data.dart';
 import 'package:todo/core/network/end_points.dart';
 import 'api_response.dart';
@@ -101,14 +102,14 @@ class APIHelper {
     }
   }
 
-  // Future<Options> getDefaultOptions({required bool isAuthorized}) async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<Options> getDefaultOptions({required bool isAuthorized}) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  //   return Options(
-  //     headers: {
-  //       if (isAuthorized)
-  //         "Authorization": "Bearer ${prefs.getString('access_token')}",
-  //     },
-  //   );
-  // }
+    return Options(
+      headers: {
+        if (isAuthorized)
+          "Authorization": "Bearer ${prefs.getString('access_token')}",
+      },
+    );
+  }
 }
